@@ -4,8 +4,8 @@ from ultralytics import YOLO
 import numpy as np
 import cv2
 import os
-from logic import decide_action
-from utils import call_groq_llm
+from backend.logic import decide_action
+from backend.utils import call_groq_llm
 
 app = FastAPI()
 
@@ -56,3 +56,4 @@ async def analyze(image: UploadFile, user_text: str = Form("")):
         "rule_output": logic_output,
         "assistant_reply": llm_reply
     }
+
