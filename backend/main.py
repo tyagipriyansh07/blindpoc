@@ -57,3 +57,28 @@ async def analyze(image: UploadFile, user_text: str = Form("")):
         "assistant_reply": llm_reply
     }
 
+
+@app.post("/analyze_video")
+async def analyze_video(image: UploadFile = File(...)):
+    contents = await image.read()
+    nparr = np.frombuffer(contents, np.uint8)
+    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    results = model(frame, verbose=False)
+    detections = [r for r in results[0].boxes.data.tolist()]
+
+    rule_output = decide_action(detections)
+
+    # Let LLM speak
+    assistant_reply = call_groq_llm(
+        "Describe the scene.",
+        detections,
+        rule_output
+    )
+
+    return {
+        "detections": detections,
+        "rule_output": rule_output,
+        "assistant_reply": assistant_reply
+    }
+
