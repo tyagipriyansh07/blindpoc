@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, Form
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 import numpy as np
@@ -81,4 +81,5 @@ async def analyze_video(image: UploadFile = File(...)):
         "rule_output": rule_output,
         "assistant_reply": assistant_reply
     }
+
 
