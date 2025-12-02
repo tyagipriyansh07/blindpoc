@@ -93,8 +93,8 @@ import numpy as np
 import cv2
 import os
 
-from logic import decide_action
-from utils import call_groq_llm
+from backend.logic import decide_action
+from backend.utils import call_groq_llm
 
 app = FastAPI()
 
@@ -165,4 +165,5 @@ async def analyze_video(image: UploadFile = File(...)):
         "assistant_reply": assistant_reply,
         "rule_output": rule_output
     }
+
 
